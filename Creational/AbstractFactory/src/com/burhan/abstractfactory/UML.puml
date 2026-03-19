@@ -1,0 +1,117 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface RentalPackageFactory {
+    + createVehicle(): Vehicle
+    + createInsurance(): Insurance
+    + createFuelPlan(): FuelPlan
+}
+
+interface Vehicle {
+    + startEngine(): void
+    + stopEngine(): void
+    + getCapacity(): int
+    + getDailyRate(): double
+}
+
+interface Insurance {
+    + getCoverageAmount(): double
+    + getCoverageType(): String
+    + getDailyPremium(): double
+}
+
+interface FuelPlan {
+    + getFuelLimit(): double
+    + getCostPerLiter(): double
+    + getFuelType(): String
+}
+
+class EconomyPackageFactory {
+    + createVehicle(): Vehicle
+    + createInsurance(): Insurance
+    + createFuelPlan(): FuelPlan
+}
+
+class LuxuryPackageFactory {
+    + createVehicle(): Vehicle
+    + createInsurance(): Insurance
+    + createFuelPlan(): FuelPlan
+}
+
+class EconomyCar {
+    + startEngine(): void
+    + stopEngine(): void
+    + getCapacity(): int
+    + getDailyRate(): double
+}
+
+class LuxuryCar {
+    + startEngine(): void
+    + stopEngine(): void
+    + getCapacity(): int
+    + getDailyRate(): double
+}
+
+class BasicInsurance {
+    + getCoverageAmount(): double
+    + getCoverageType(): String
+    + getDailyPremium(): double
+}
+
+class PremiumInsurance {
+    + getCoverageAmount(): double
+    + getCoverageType(): String
+    + getDailyPremium(): double
+}
+
+class BasicFuelPlan {
+    + getFuelLimit(): double
+    + getCostPerLiter(): double
+    + getFuelType(): String
+}
+
+class PremiumFuelPlan {
+    + getFuelLimit(): double
+    + getCostPerLiter(): double
+    + getFuelType(): String
+}
+
+class RentalService {
+    - vehicle: Vehicle
+    - insurance: Insurance
+    - fuelPlan: FuelPlan
+    + createRentalPackage(factory: RentalPackageFactory): void
+    + displayPackageDetails(): void
+    + startRental(): void
+}
+
+class RentalDemo {
+    + main(args: String[]): void
+}
+
+' Implementations
+RentalPackageFactory <|.. EconomyPackageFactory
+RentalPackageFactory <|.. LuxuryPackageFactory
+Vehicle <|.. EconomyCar
+Vehicle <|.. LuxuryCar
+Insurance <|.. BasicInsurance
+Insurance <|.. PremiumInsurance
+FuelPlan <|.. BasicFuelPlan
+FuelPlan <|.. PremiumFuelPlan
+
+' Associations
+RentalService --> RentalPackageFactory
+RentalService --> Vehicle
+RentalService --> Insurance
+RentalService --> FuelPlan
+RentalDemo --> RentalService
+
+' Factory Creation
+EconomyPackageFactory ..> EconomyCar : creates
+EconomyPackageFactory ..> BasicInsurance : creates
+EconomyPackageFactory ..> BasicFuelPlan : creates
+LuxuryPackageFactory ..> LuxuryCar : creates
+LuxuryPackageFactory ..> PremiumInsurance : creates
+LuxuryPackageFactory ..> PremiumFuelPlan : creates
+
+@enduml
